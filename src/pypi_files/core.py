@@ -28,7 +28,12 @@ class PyPIFiles:
         self.json = {'package': None, 'json': None}
 
     def help(self):
-        print('Help!')
+        print('''Usage: pf <command> [--package <pacakge>] [--version <version>] [--file <yaml file>] [--destination <destination>]
+
+command:
+  get_file_list    Show package source file URLs.
+  download         Download package source files.
+''')
 
     def get_json(self, package, force=False):
         if force or self.json['package'] != package \
