@@ -1,5 +1,8 @@
 # pypi-files
+[![pytest](https://github.com/rcmdnk/pypi-files/actions/workflows/test.yml/badge.svg)](https://github.com/rcmdnk/pypi-files/actions/workflows/test.yml)
+
 Check and download package source files from PyPI.
+
 
 # Rqeuirement
 
