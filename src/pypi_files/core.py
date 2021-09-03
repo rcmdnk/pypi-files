@@ -3,7 +3,7 @@ import yaml
 import requests
 
 
-class PyPIiFiles:
+class PyPIFiles:
     def __init__(self, package=None, version=None, file=None,
                  destination=None, base_url='https://pypi.org/pypi'):
         self.packages = []
