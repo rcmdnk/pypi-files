@@ -1,8 +1,13 @@
 [tool.poetry]
 name = "pypi-files"
-version = "0.1.0"
-description = ""
+version = "0.1.1"
+description = "Check and download package source files from PyPI."
+repository = "https://github.com/rcmdnk/pypi-files"
+homepage = "https://github.com/rcmdnk/pypi-files"
 authors = ["rcmdnk <rcmdnk@gmail.com>"]
+readme = "README.md"
+license = "Apache-2.0"
+keywords = ["PyPI"]
 
 [tool.poetry.dependencies]
 python = "^3.6"
