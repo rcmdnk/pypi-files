@@ -14,6 +14,12 @@ Check and download package source files from PyPI.
 
 # Usage
 
+    Usage: pf <command> [--package <pacakge>] [--version <version>] [--file <yaml file>] [--destination <destination>]
+
+    command:
+      get_file_list    Show package source file URLs.
+      download         Download package source files.
+
 To get package source files, use `pf get_file_list`:
 
     pf get_file_list [--package <pacakge>] [--version <version>] [--file <yaml file>]
@@ -42,6 +48,8 @@ If you want the latest version, use `latest`.
 
 To download package source files, use `download`.
 You can set output destination by `--destination`.
+
+    pf download [--package <pacakge>] [--version <version>] [--file <yaml file>] [--destination <destination>]
 
 The default destination is current directory (`./`).
 
