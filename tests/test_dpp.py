@@ -1,11 +1,11 @@
 import os
 import pytest
 from pypi_files import __version__
-from pypi_files.core import PyPiFiles
+from pypi_files.core import PyPIFiles
 
 @pytest.fixture(scope='module')
 def pf():
-    my_pf = PyPiFiles(package='tsd2gspread', version='0.1.1',
+    my_pf = PyPIFiles(package='tsd2gspread', version='0.1.1',
                       file='./tests/packages.yml')
     return my_pf
 

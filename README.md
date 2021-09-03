@@ -1,5 +1,5 @@
 # pypi-files
-Check and download package source files from PyPi
+Check and download package source files from PyPI.
 
 # Rqeuirement
 
