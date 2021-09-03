@@ -6,20 +6,20 @@ import requests
 class PyPiFiles:
     def __init__(self, package=None, version=None, file=None,
                  destination=None, base_url='https://pypi.org/pypi'):
-        self.packages = set()
+        self.packages = []
         if package is not None:
             if type(package) in (list, tuple, set):
                 version = version if type(version) in (
                     list, tuple, set) and len(package) == len(
                         version) else ['latest'] * len(package)
-                self.packages |= set(zip(package, version))
+                self.packages += list(zip(package, version))
             else:
                 version = version if version is not None else 'latest'
-                self.packages |= {(package, version)}
+                self.packages += [(package, version)]
         if file is not None:
             with open(file) as f:
-                self.packages |= set(list(x.items())[0]
-                                     for x in yaml.safe_load(f))
+                self.packages += [list(x.items())[0]
+                                  for x in yaml.safe_load(f)]
 
         self.base_url = base_url.rstrip('/')
         if destination is None:
