@@ -1,5 +1,7 @@
 # pypi-files
 [![pytest](https://github.com/rcmdnk/pypi-files/actions/workflows/test.yml/badge.svg)](https://github.com/rcmdnk/pypi-files/actions/workflows/test.yml)
+[![version](https://img.shields.io/pypi/v/pypi-files.svg)](https://pypi.python.org/pypi/pypi-files/)
+[![license](https://img.shields.io/pypi/l/pypi-files.svg)](https://pypi.python.org/pypi/pypi-files/)
 
 Check and download package source files from PyPI.
 
