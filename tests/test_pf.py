@@ -13,7 +13,7 @@ def test_version():
     assert __version__ == '0.1.1'
 
 def test_get_json(pf):
-    assert pf.get_json('tsd2gspread')['info']['author'] == 'rcmdnk'
+    assert pf.get_json('tsd2gspread', 'latest')['info']['author'] == 'rcmdnk'
 
 def test_get_version(pf):
     assert pf.get_version('tsd2gspread', '0.1.1') == '0.1.1'
@@ -34,7 +34,7 @@ def test_get_file_list(pf):
     assert files == checks
 
 def test_download(pf):
-    pf.packages = {('tsd2gspread', '0.1.1')}
+    pf.packages = {'tsd2gspread': ['0.1.1']}
     pf.download()
     assert os.path.exists('./tsd2gspread-0.1.1.tar.gz')
     os.remove('./tsd2gspread-0.1.1.tar.gz')
