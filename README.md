@@ -14,13 +14,33 @@ Check and download package source files from PyPI.
 
     $ pip install pypi-files
 
+# Development
+
+If you want to test/develop pypi-files, checkout the repository and use Poetry:
+
+    $ pip install poetry # or brew install poetry
+    $ git clone git@github.com/rcmdnk/pypi-files
+    $ cd pypi-files
+    $ poetry install
+    $ poetry run pf get_file_list pypi-files
+    $ # etc...
+
 # Usage
 
-    Usage: pf <command> [--package <pacakge>] [--version <version>] [--file <yaml file>] [--destination <destination>]
-
+    Usage: pf <command> [--package <pacakge>] [--version <version>] [--file <yaml_file>] [--destination <destination>] [--base_url <base_url>] [--dependencies <bool>]
+    
     command:
       get_file_list    Show package source file URLs.
       download         Download package source files.
+    
+    Options:
+      --package <package>          Set packages to check. Multiple packages can be set by separating by `,`. At least one of package or file option is needed for `get_file_list` and `download` commands.
+      --version <version>          Set versions for each packages. It should be same length of `--package` input.
+      --file <yaml_file>           Set YAML file which has a package list.
+      --destination <destination>  Set a destination in which download files are stored. Default is `./`.
+      --base_url <base_url>        Set base ufl for PyPI. Default is `httss://pypi.osg/pypi`.
+      --dependencies <bool>        Set 1 to include all package dependencies.
+
 
 To get package source files, use `pf get_file_list`:
 
@@ -31,6 +51,12 @@ If `--version` is not passed, the latest version will be used.
 
     $ pf get_file_list --package pandas --version 1.3.2
     https://files.pythonhosted.org/packages/cf/f7/6c0dd488b5f5f1c0c1a48637df45046334d0be684faaf3536429f14aa9de/pandas-1.3.2.tar.gz
+
+
+`version` can be a file name of wheel, like `pandas-1.3.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl`.
+For this `version`, it returns path for the wheel file:
+
+    https://files.pythonhosted.org/packages/55/51/fb64df42fd821331ab868c552452966d607eaac2c986fc3e7a50e1bf2951/pandas-1.3.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
 
 You can also use YAML file with a package list.
 

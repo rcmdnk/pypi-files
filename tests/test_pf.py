@@ -10,7 +10,7 @@ def pf():
     return my_pf
 
 def test_version():
-    assert __version__ == '0.1.1'
+    assert __version__ == '0.1.2'
 
 def test_get_json(pf):
     assert pf.get_json('tsd2gspread', 'latest')['info']['author'] == 'rcmdnk'

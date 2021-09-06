@@ -6,8 +6,8 @@ from .core import PyPIFiles
 
 class CliObject:
     def __init__(self, package=None, version=None, file=None, destination=None):
-        self.package = package
-        self.version = version
+        self.package = package.split(',') if package is not None else None
+        self.version = version.split(',') if version is not None else None
         self.file = file
         self.destination = destination
 

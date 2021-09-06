@@ -28,10 +28,12 @@ class PyPIFiles:
         if file is not None:
             with open(file) as f:
                 for p, v in [tuple(x.items())[0] for x in yaml.safe_load(f)]:
-                    if p in self.packages:
-                        self.packages[p].append(v)
+                    if p not in self.packages:
+                        self.packages[p] = []
+                    if type(v) is list:
+                        self.packages[p] += v
                     else:
-                        self.packages[p] = [v]
+                        self.packages[p].append(v)
 
         self.base_url = base_url.rstrip('/')
         if destination is None:
@@ -46,7 +48,24 @@ class PyPIFiles:
 command:
   get_file_list    Show package source file URLs.
   download         Download package source files.
+
+Options:
+  --package <package>          Set packages to check. Multiple packages can be set by separating by `,`. At least one of package or file option is needed for `get_file_list` and `download` commands.
+  --version <version>          Set versions for each packages. It should be same length of `--package` input.
+  --file <yaml_file>           Set YAML file which has a package list.
+  --destination <destination>  Set a destination in which download files are stored. Default is `./`.
+  --base_url <base_url>        Set base ufl for PyPI. Default is `httss://pypi.osg/pypi`.
+  --dependencies <bool>        Set 1 to include all package dependencies.
 ''')
+
+    def parse_version(self, package, version):
+        if version.startswith(package):
+            if version.endswith('whl'):
+                return version.replace(f'{package}-', '').split('-')[0]
+            else:
+                return version.replace(f'{package}-', '').replace(
+                    '.tar.gz', '').replace('.zip', '')
+        return version
 
     def get_json(self, package, version, force=False):
         if (force or self.json['package'] != package
@@ -55,27 +74,35 @@ command:
             if version == 'latest':
                 url = f'{self.base_url}/{package}/json'
             else:
-                url = f'{self.base_url}/{package}/{version}/json'
+                v = self.parse_version(package, version)
+                url = f'{self.base_url}/{package}/{v}/json'
             self.json = {'package': package, 'version': version,
                          'json':requests.get(url).json()}
         return self.json['json']
 
     def get_version(self, package, version):
-        if version != 'latest':
-            return version
-        return self.get_json(package, version)['info']['version']
+        v = self.parse_version(package, version)
+        if v == 'latest':
+            return self.get_json(package, v)['info']['version']
+        return v
 
     def get_file(self, package, version):
         v = self.get_version(package, version)
+        sdist = None
         for info in self.get_json(package, version)['releases'][v]:
+            if version.startswith(package):
+                if os.path.basename(info['url']) == version:
+                    return info['url']
             if info['packagetype'] == 'sdist':
-                return info['url']
-        return None
+                if not version.startswith(package):
+                    return info['url']
+                else:
+                    sdist = info['url']
+        return sdist
 
     def get_dependencies(self, package, version):
         requires_dist = self.get_json(
             package, version)['info']['requires_dist']
-        print(requires_dist)
         if not requires_dist:
             return []
         return [x.split()[0].split('[')[0].split(';')[0].split('>')[0]
@@ -87,7 +114,6 @@ command:
             new_packages = {}
             for p in packages:
                 for v in packages[p]:
-                    print(p, v)
                     for d in self.get_dependencies(p, v):
                         if d not in self.packages:
                             self.packages[d] = ['latest']
@@ -115,7 +141,6 @@ command:
     def download(self, destination=None):
         self.set_destination(destination)
 
-        print(self.packages)
         for p in self.packages:
             for v in self.packages[p]:
                 file =self.get_file(p, v)
