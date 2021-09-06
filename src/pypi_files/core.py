@@ -31,9 +31,9 @@ class PyPIFiles:
                     if p not in self.packages:
                         self.packages[p] = []
                     if type(v) is list:
-                        self.packages[p] += v
+                        self.packages[p] += str(v)
                     else:
-                        self.packages[p].append(v)
+                        self.packages[p].append(str(v))
 
         self.base_url = base_url.rstrip('/')
         if destination is None:
