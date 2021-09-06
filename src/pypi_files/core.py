@@ -58,12 +58,20 @@ Options:
   --dependencies <bool>        Set 1 to include all package dependencies.
 ''')
 
+    def is_file(self, package, version):
+        if version.startswith(package) or version.startswith(
+                package.replace('-', '_')):
+            return True
+        return False
+
     def parse_version(self, package, version):
-        if version.startswith(package):
+        if self.is_file(package, version):
             if version.endswith('whl'):
-                return version.replace(f'{package}-', '').split('-')[0]
+                return version.replace(f'{package}-', '').replace(
+                    f'{package.replace("-", "_")}-', '').split('-')[0]
             else:
                 return version.replace(f'{package}-', '').replace(
+                    f'{package.replace("-", "_")}-', '').replace(
                     '.tar.gz', '').replace('.zip', '')
         return version
 
@@ -90,11 +98,11 @@ Options:
         v = self.get_version(package, version)
         sdist = None
         for info in self.get_json(package, version)['releases'][v]:
-            if version.startswith(package):
+            if self.is_file(package, version):
                 if os.path.basename(info['url']) == version:
                     return info['url']
             if info['packagetype'] == 'sdist':
-                if not version.startswith(package):
+                if self.is_file(package, version):
                     return info['url']
                 else:
                     sdist = info['url']
