@@ -1,7 +1,9 @@
 import os
+
 import pytest
 from pypi_files import __version__
 from pypi_files.core import PyPIFiles
+
 
 @pytest.fixture(scope='module')
 def pf():
@@ -9,19 +11,24 @@ def pf():
                       file='./tests/packages.yml')
     return my_pf
 
+
 def test_version():
     assert __version__ == '0.1.4'
 
+
 def test_get_json(pf):
     assert pf.get_json('tsd2gspread', 'latest')['info']['author'] == 'rcmdnk'
+
 
 def test_get_version(pf):
     assert pf.get_version('tsd2gspread', '0.1.1') == '0.1.1'
     latest = pf.get_version('tsd2gspread', 'latest')
     assert latest != 'latest' and latest != '0.1.1'
 
+
 def test_get_file(pf):
     assert pf.get_file('tsd2gspread', '0.1.1') == 'https://files.pythonhosted.org/packages/54/ab/229e1e8c00332d0be9f5ebd6c44564caef2c63c0ae06732cb2c8b9665df2/tsd2gspread-0.1.1.tar.gz'
+
 
 def test_get_file_list(pf):
     files = pf.get_file_list()
@@ -32,6 +39,7 @@ def test_get_file_list(pf):
       'https://files.pythonhosted.org/packages/66/03/818876390c7ff4484d5a05398a618cfdaf0a2b9abb3a7c7ccd59fe181008/numpy-1.21.0.zip',
     ]
     assert files == checks
+
 
 def test_download(pf):
     pf.packages = {'tsd2gspread': ['0.1.1']}

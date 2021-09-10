@@ -1,7 +1,8 @@
-import os
 import copy
-import yaml
+import os
+
 import requests
+import yaml
 
 
 class PyPIFiles:
@@ -85,7 +86,7 @@ Options:
                 v = self.parse_version(package, version)
                 url = f'{self.base_url}/{package}/{v}/json'
             self.json = {'package': package, 'version': version,
-                         'json':requests.get(url).json()}
+                         'json': requests.get(url).json()}
         return self.json['json']
 
     def get_version(self, package, version):
@@ -151,7 +152,7 @@ Options:
 
         for p in self.packages:
             for v in self.packages[p]:
-                file =self.get_file(p, v)
+                file = self.get_file(p, v)
                 if file is None:
                     print(f'No source file is found for {p}-{v}!')
                     continue
