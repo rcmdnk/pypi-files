@@ -16,7 +16,7 @@ PyYAML = "^5.4.1"
 requests = "^2.26.0"
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
+pytest = "^6.2"
 
 [tool.poetry.scripts]
 pf = "pypi_files:main"
