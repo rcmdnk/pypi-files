@@ -98,7 +98,7 @@ Options:
     def get_file(self, package, version):
         v = self.get_version(package, version)
         sdist = None
-        for info in self.get_json(package, version)['releases'][v]:
+        for info in self.get_json(package, version)['urls']:
             if self.is_file(package, version):
                 if os.path.basename(info['url']) == version:
                     return info['url']
